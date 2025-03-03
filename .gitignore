@@ -24,10 +24,6 @@ build/
 # MacOS specific files
 .DS_Store
 
-# Protobuf generated files
-*.pb.*
-*.proto
-
 # Temporary files
 tmp/
 temp/
