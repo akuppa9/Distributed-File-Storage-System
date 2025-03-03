@@ -4,6 +4,7 @@ service FileStorage {
   rpc UploadFile(stream FileRequest) returns (UploadResponse);
   rpc DownloadFile(FileDownloadRequest) returns (stream FileResponse);
   rpc GetMetadata(FileMetadataRequest) returns (MetadataResponse);
+  rpc listFiles(Empty) returns (FileList) {}
 }
 
 message FileRequest {
@@ -31,4 +32,12 @@ message MetadataResponse {
   string fileName = 1;
   string uploadTime = 2;
   string version = 3;
+}
+
+message Empty {
+  // Empty message for requests that don't need parameters
+}
+
+message FileList {
+  repeated string files = 1;
 }

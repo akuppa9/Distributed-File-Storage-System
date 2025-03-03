@@ -64,6 +64,36 @@ async function getMetadata(call, callback) {
   }
 }
 
+// List all files in the bucket
+async function listFiles(call, callback) {
+  const client = minioClients[0];
+  const bucketName = "files";
+
+  try {
+    const fileStream = client.listObjects(bucketName, "", true);
+    const fileList = { files: [] };
+
+    const objectsList = [];
+
+    fileStream.on("data", (obj) => {
+      objectsList.push(obj.name);
+    });
+
+    fileStream.on("error", (err) => {
+      console.error("Error listing files:", err);
+      callback(err);
+    });
+
+    fileStream.on("end", () => {
+      fileList.files = objectsList;
+      callback(null, fileList);
+    });
+  } catch (err) {
+    console.error("Error in listFiles:", err);
+    callback(err);
+  }
+}
+
 async function main() {
   const client = minioClients[0];
 
@@ -76,7 +106,12 @@ async function main() {
   }
 
   const server = new grpc.Server();
-  server.addService(storageProto.service, { uploadFile, downloadFile, getMetadata });
+  server.addService(storageProto.service, {
+    uploadFile,
+    downloadFile,
+    getMetadata,
+    listFiles, // Add this line to register the new method
+  });
   server.bindAsync(
     "0.0.0.0:5001",
     grpc.ServerCredentials.createInsecure(),

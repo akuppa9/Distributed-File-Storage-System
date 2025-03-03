@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Distributed File Storage</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Distributed File Storage System</h1>
+
+      <div class="card">
+        <h2>Upload File</h2>
+        <div class="upload-area" id="dropArea">
+          <p>Drag & Drop files here or click to select</p>
+          <input type="file" id="fileInput" hidden />
+        </div>
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <button id="uploadBtn">Upload File</button>
+      </div>
+
+      <div class="card">
+        <h2>Your Files</h2>
+        <div class="file-list" id="fileList">
+          <p class="loading">Loading files...</p>
+        </div>
+      </div>
+
+      <div class="card" id="metadataCard" style="display: none">
+        <h2>File Metadata</h2>
+        <div id="metadataContent"></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
