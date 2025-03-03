@@ -31,17 +31,20 @@ This system consists of the following components:
 ### Environment Setup
 
 1. Clone the repository:
+
    ```
    git clone <repository-url>
    cd Distributed-File-Storage-System
    ```
 
 2. Install dependencies:
+
    ```
    npm install
    ```
 
 3. Create an `.env` file with the following variables:
+
    ```
    MINIO_ENDPOINT_1=localhost:9000
    MINIO_ENDPOINT_2=localhost:9001
@@ -57,17 +60,9 @@ This system consists of the following components:
 
 ## Starting the System
 
-1. Start the storage server:
-   ```
-   node server.js
-   ```
+1. Run `npm run dev` in the root directory to boot up the server and api
 
-2. In a new terminal, start the API server:
-   ```
-   node api-server.js
-   ```
-
-3. Access the web interface at http://localhost:3000
+2. Access the web interface at http://localhost:3000
 
 ## API Endpoints
 
@@ -75,12 +70,14 @@ This system consists of the following components:
 - `GET /files` - List all available files
 - `GET /download/:fileName` - Download a specific file
 - `GET /metadata/:fileName` - Get metadata for a specific file
+- `DELETE /
 
 ## Features
 
 - **File Upload**: Upload files securely to the distributed storage system
 - **File Download**: Download any stored file from any node
 - **File Listing**: View all files in the storage system
+- **File Deletion**: Delete a file from the storage system
 - **Metadata Retrieval**: Get information about files including upload time and version
 - **High Availability**: Files are replicated across multiple nodes
 - **Fault Tolerance**: System continues to operate even if some nodes fail
@@ -110,12 +107,6 @@ To add new features:
 1. Update the Protocol Buffers definition in `protos/storage.proto`
 2. Implement the new service methods in `server.js`
 3. Add API endpoints in `api-server.js`
-
-## Troubleshooting
-
-- **Connection Issues**: Ensure MinIO is running on the specified ports
-- **Upload Failures**: Check MinIO credentials and bucket permissions
-- **Missing Files**: Verify the file exists in MinIO using the MinIO Console
 
 ## Future Enhancements
 
