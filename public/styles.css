@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont,
+    sans-serif;
 }
 
 :root {
@@ -46,7 +47,8 @@ h1 {
   padding: 30px;
   margin-bottom: 30px;
   border: 1px solid var(--border-color);
-  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  transition: transform var(--transition-speed),
+    box-shadow var(--transition-speed);
 }
 
 .card:hover {
@@ -64,7 +66,7 @@ h2 {
 }
 
 h2::before {
-  content: '';
+  content: "";
   display: inline-block;
   width: 4px;
   height: 18px;
@@ -88,13 +90,17 @@ h2::before {
 }
 
 .upload-area::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, rgba(74, 107, 255, 0.03), rgba(74, 107, 255, 0.08));
+  background: linear-gradient(
+    45deg,
+    rgba(74, 107, 255, 0.03),
+    rgba(74, 107, 255, 0.08)
+  );
   opacity: 0;
   transition: opacity var(--transition-speed);
   z-index: 0;
@@ -172,7 +178,7 @@ button:active {
 }
 
 .file-item span::before {
-  content: '📄';
+  content: "📄";
   margin-right: 10px;
   font-size: 1.2rem;
 }
@@ -230,7 +236,11 @@ button:active {
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-hover));
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--primary-hover)
+  );
   width: 0;
   transition: width 0.3s ease;
   border-radius: 6px;
@@ -279,12 +289,12 @@ button:active {
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .file-actions {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .card {
     padding: 20px;
   }
