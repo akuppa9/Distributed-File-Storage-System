@@ -4,7 +4,8 @@ service FileStorage {
   rpc UploadFile(stream FileRequest) returns (UploadResponse);
   rpc DownloadFile(FileDownloadRequest) returns (stream FileResponse);
   rpc GetMetadata(FileMetadataRequest) returns (MetadataResponse);
-  rpc listFiles(Empty) returns (FileList) {}
+  rpc listFiles(Empty) returns (FileList);
+  rpc DeleteFile(FileDeleteRequest) returns (DeleteResponse);
 }
 
 message FileRequest {
@@ -40,4 +41,12 @@ message Empty {
 
 message FileList {
   repeated string files = 1;
+}
+
+message FileDeleteRequest {
+  string fileName = 1;
+}
+
+message DeleteResponse {
+  string message = 1;
 }

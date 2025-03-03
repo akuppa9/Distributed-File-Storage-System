@@ -77,14 +77,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const downloadBtn = document.createElement("button");
     downloadBtn.textContent = "Download";
+    downloadBtn.setAttribute("data-action", "download");
     downloadBtn.addEventListener("click", () => downloadFile(fileName));
 
     const metadataBtn = document.createElement("button");
     metadataBtn.textContent = "Metadata";
     metadataBtn.addEventListener("click", () => getMetadata(fileName));
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.setAttribute("data-action", "delete");
+    deleteBtn.style.color = "#ff4d4f";
+    deleteBtn.style.borderColor = "#ff4d4f";
+    deleteBtn.addEventListener("click", () => deleteFile(fileName));
+
     actionsDiv.appendChild(downloadBtn);
     actionsDiv.appendChild(metadataBtn);
+    actionsDiv.appendChild(deleteBtn);
 
     fileItem.appendChild(nameSpan);
     fileItem.appendChild(actionsDiv);
@@ -149,19 +158,34 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         metadataCard.style.display = "block";
         metadataContent.innerHTML = `
-                    <p><strong>File Name:</strong> ${data.fileName || "N/A"}</p>
-                    <p><strong>Upload Time:</strong> ${
-                      data.uploadTime || "N/A"
-                    }</p>
-                    <p><strong>Version:</strong> ${data.version || "N/A"}</p>
-                `;
+          <p><strong>File Name:</strong> ${data.fileName || "N/A"}</p>
+          <p><strong>Upload Time:</strong> ${data.uploadTime || "N/A"}</p>
+          <p><strong>Version:</strong> ${data.version || "N/A"}</p>
+        `;
 
-        // Scroll to metadata card
-        metadataCard.scrollIntoView({ behavior: "smooth" });
+        // Scroll to metadata card with smooth animation
+        metadataCard.scrollIntoView({ behavior: "smooth", block: "center" });
       })
       .catch((error) => {
         console.error("Error getting metadata:", error);
         alert("Error retrieving file metadata");
       });
+  }
+
+  function deleteFile(fileName) {
+    if (confirm(`Are you sure you want to delete ${fileName}?`)) {
+      fetch(`${apiUrl}/files/${fileName}`, {
+        method: "DELETE",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+          loadFiles(); // Reload the file list
+        })
+        .catch((error) => {
+          console.error("Error deleting file:", error);
+          alert("Error deleting file");
+        });
+    }
   }
 });

@@ -140,6 +140,26 @@ async function listFiles(call, callback) {
   }
 }
 
+// Delete file from MinIO
+async function deleteFile(call, callback) {
+  const { fileName } = call.request;
+
+  try {
+    // Delete file from all MinIO clients (nodes) for consistency
+    const promises = minioClients.map((client) =>
+      client.removeObject("files", fileName)
+    );
+
+    await Promise.all(promises);
+    callback(null, {
+      message: `File ${fileName} deleted successfully from all nodes`,
+    });
+  } catch (err) {
+    console.error("Error in deleteFile:", err);
+    callback(err);
+  }
+}
+
 async function main() {
   await ensureBucketExists();
 
@@ -149,6 +169,7 @@ async function main() {
     downloadFile,
     getMetadata,
     listFiles,
+    deleteFile, // Add the new method
   });
   server.bindAsync(
     "0.0.0.0:5001",

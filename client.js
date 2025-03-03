@@ -67,6 +67,28 @@ function getMetadata(fileName) {
   });
 }
 
+// Function to delete a file
+function deleteFile(fileName) {
+  client.deleteFile({ fileName }, (error, response) => {
+    if (error) {
+      console.error("Error deleting file:", error);
+      return;
+    }
+    console.log(response.message);
+  });
+}
+
+// List all files
+function listFiles() {
+  client.listFiles({}, (error, response) => {
+    if (error) {
+      console.error("Error listing files:", error);
+      return;
+    }
+    console.log("Files:", response.files);
+  });
+}
+
 // Make sure the test.txt file exists or use a known existing file
 const testFile = "test.txt";
 // Create test file if it doesn't exist
@@ -75,11 +97,9 @@ if (!fs.existsSync(testFile)) {
   console.log(`Created test file: ${testFile}`);
 }
 
-// Test uploading a file
-uploadFile(testFile);
-
-// Test downloading the file
-downloadFile(testFile);
-
-// Test getting metadata
-getMetadata(testFile);
+// Uncomment the operation you want to test
+// uploadFile(testFile);
+// downloadFile(testFile);
+// getMetadata(testFile);
+// deleteFile(testFile);
+// listFiles();

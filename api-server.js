@@ -144,6 +144,19 @@ app.get("/metadata/:fileName", (req, res) => {
   });
 });
 
+// API endpoint to delete a file
+app.delete("/files/:fileName", (req, res) => {
+  const fileName = req.params.fileName;
+
+  client.deleteFile({ fileName }, (error, response) => {
+    if (error) {
+      console.error("Error deleting file:", error);
+      return res.status(500).json({ error: error.message });
+    }
+    res.json({ message: response.message });
+  });
+});
+
 // Create uploads directory if it doesn't exist
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");

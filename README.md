@@ -70,14 +70,14 @@ This system consists of the following components:
 - `GET /files` - List all available files
 - `GET /download/:fileName` - Download a specific file
 - `GET /metadata/:fileName` - Get metadata for a specific file
-- `DELETE /
+- `DELETE /files/:fileName` - Delete a specific file
 
 ## Features
 
 - **File Upload**: Upload files securely to the distributed storage system
 - **File Download**: Download any stored file from any node
 - **File Listing**: View all files in the storage system
-- **File Deletion**: Delete a file from the storage system
+- **File Deletion**: Delete a file from all storage nodes
 - **Metadata Retrieval**: Get information about files including upload time and version
 - **High Availability**: Files are replicated across multiple nodes
 - **Fault Tolerance**: System continues to operate even if some nodes fail
