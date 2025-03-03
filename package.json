@@ -1,0 +1,20 @@
+{
+  "name": "distributed-file-storage-system",
+  "version": "1.0.0",
+  "description": "A distributed file storage system inspired by Dropbox, built using MinIO and gRPC. Features include file replication, metadata management, versioning, and eventual consistency across multiple nodes for high availability and resilience.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.6",
+    "@grpc/proto-loader": "^0.7.13",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "minio": "^8.0.4",
+    "multer": "^1.4.5-lts.1"
+  }
+}
