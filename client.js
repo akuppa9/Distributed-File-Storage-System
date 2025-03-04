@@ -11,12 +11,9 @@ const client = new storageProto(
 
 function uploadFile(filePath) {
   const fileName = filePath.split("/").pop();
-
-  // Create metadata to pass fileName
   const metadata = new grpc.Metadata();
   metadata.set("fileName", fileName);
 
-  // Provide callback to handle server response
   const call = client.uploadFile(metadata, (error, response) => {
     if (error) {
       console.error("Error uploading file:", error);
@@ -25,7 +22,6 @@ function uploadFile(filePath) {
     console.log(response.message);
   });
 
-  // Check if file exists before trying to read it
   if (!fs.existsSync(filePath)) {
     console.error(`File not found: ${filePath}`);
     call.end();
@@ -33,7 +29,6 @@ function uploadFile(filePath) {
   }
 
   const stream = fs.createReadStream(filePath);
-
   stream.on("data", (chunk) => call.write({ fileData: chunk }));
   stream.on("error", (err) => {
     console.error("Error reading file:", err);
@@ -67,7 +62,6 @@ function getMetadata(fileName) {
   });
 }
 
-// Function to delete a file
 function deleteFile(fileName) {
   client.deleteFile({ fileName }, (error, response) => {
     if (error) {
@@ -78,7 +72,6 @@ function deleteFile(fileName) {
   });
 }
 
-// List all files
 function listFiles() {
   client.listFiles({}, (error, response) => {
     if (error) {
@@ -89,9 +82,8 @@ function listFiles() {
   });
 }
 
-// Make sure the test.txt file exists or use a known existing file
-const testFile = "test.txt";
 // Create test file if it doesn't exist
+const testFile = "test.txt";
 if (!fs.existsSync(testFile)) {
   fs.writeFileSync(testFile, "This is a test file for gRPC upload.");
   console.log(`Created test file: ${testFile}`);

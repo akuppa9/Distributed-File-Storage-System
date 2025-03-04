@@ -11,10 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let selectedFile = null;
 
-  // Initialize
   loadFiles();
 
-  // Event Listeners
+  // Event listeners for file upload interaction
   dropArea.addEventListener("click", () => fileInput.click());
 
   dropArea.addEventListener("dragover", (e) => {
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   uploadBtn.addEventListener("click", uploadFile);
 
-  // Functions
   function loadFiles() {
     fetch(`${apiUrl}/files`)
       .then((response) => response.json())
@@ -87,8 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
     deleteBtn.setAttribute("data-action", "delete");
-    deleteBtn.style.color = "#ff4d4f";
-    deleteBtn.style.borderColor = "#ff4d4f";
     deleteBtn.addEventListener("click", () => deleteFile(fileName));
 
     actionsDiv.appendChild(downloadBtn);
@@ -107,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Show progress bar
     progressContainer.style.display = "block";
     progressBar.style.width = "0%";
 
@@ -130,12 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(response.message);
 
           // Reset UI
-          dropArea.innerHTML =
-            "<p>Drag & Drop files here or click to select</p>";
+          dropArea.innerHTML = "<p>Drag & Drop files here or click to select</p>";
           selectedFile = null;
           progressContainer.style.display = "none";
-
-          // Reload file list
           loadFiles();
         } else {
           alert("Error uploading file");
@@ -162,8 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Upload Time:</strong> ${data.uploadTime || "N/A"}</p>
           <p><strong>Version:</strong> ${data.version || "N/A"}</p>
         `;
-
-        // Scroll to metadata card with smooth animation
         metadataCard.scrollIntoView({ behavior: "smooth", block: "center" });
       })
       .catch((error) => {
@@ -180,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((response) => response.json())
         .then((data) => {
           alert(data.message);
-          loadFiles(); // Reload the file list
+          loadFiles();
         })
         .catch((error) => {
           console.error("Error deleting file:", error);

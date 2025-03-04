@@ -8,7 +8,7 @@ const path = require("path");
 const packageDefinition = protoLoader.loadSync("protos/storage.proto");
 const storageProto = grpc.loadPackageDefinition(packageDefinition).FileStorage;
 
-// Set up MinIO clients for each node
+// Set up MinIO clients for distributed storage
 const minioClients = [
   new Minio.Client({
     endPoint: process.env.MINIO_ENDPOINT_1.split(":")[0],
@@ -33,7 +33,6 @@ const minioClients = [
   }),
 ];
 
-// Ensure the bucket exists on all MinIO clients
 async function ensureBucketExists() {
   const bucketName = "files";
   for (const client of minioClients) {
@@ -47,7 +46,6 @@ async function ensureBucketExists() {
   }
 }
 
-// Upload file to MinIO with replication
 async function uploadFile(call, callback) {
   const chunks = [];
   call.on("data", (chunk) => chunks.push(chunk.fileData));
@@ -55,7 +53,7 @@ async function uploadFile(call, callback) {
     const buffer = Buffer.concat(chunks);
     const fileName = call.metadata.get("fileName")[0];
 
-    // Store file in all MinIO clients (nodes) for redundancy
+    // Replicate file across all storage nodes
     const promises = minioClients.map((client) =>
       client.putObject("files", fileName, buffer)
     );
@@ -63,7 +61,7 @@ async function uploadFile(call, callback) {
     try {
       await Promise.all(promises);
       callback(null, {
-        message: `File ${fileName} uploaded successfully to all nodes`,
+        message: `File ${fileName} uploaded successfully`,
       });
     } catch (err) {
       callback(err);
@@ -71,7 +69,7 @@ async function uploadFile(call, callback) {
   });
 }
 
-// Round-robin mechanism for load balancing read operations
+// Round-robin load balancing for read operations
 let currentClientIndex = 0;
 
 function getNextClient() {
@@ -80,7 +78,6 @@ function getNextClient() {
   return client;
 }
 
-// Download file from MinIO
 function downloadFile(call) {
   const { fileName } = call.request;
   const client = getNextClient();
@@ -92,7 +89,6 @@ function downloadFile(call) {
   });
 }
 
-// Get metadata of a file from MinIO
 async function getMetadata(call, callback) {
   const { fileName } = call.request;
   const client = getNextClient();
@@ -110,7 +106,6 @@ async function getMetadata(call, callback) {
   }
 }
 
-// List all files in the bucket
 async function listFiles(call, callback) {
   const client = getNextClient();
   const bucketName = "files";
@@ -118,7 +113,6 @@ async function listFiles(call, callback) {
   try {
     const fileStream = client.listObjects(bucketName, "", true);
     const fileList = { files: [] };
-
     const objectsList = [];
 
     fileStream.on("data", (obj) => {
@@ -140,19 +134,18 @@ async function listFiles(call, callback) {
   }
 }
 
-// Delete file from MinIO
 async function deleteFile(call, callback) {
   const { fileName } = call.request;
 
   try {
-    // Delete file from all MinIO clients (nodes) for consistency
+    // Delete file from all storage nodes
     const promises = minioClients.map((client) =>
       client.removeObject("files", fileName)
     );
 
     await Promise.all(promises);
     callback(null, {
-      message: `File ${fileName} deleted successfully from all nodes`,
+      message: `File ${fileName} deleted successfully`,
     });
   } catch (err) {
     console.error("Error in deleteFile:", err);
@@ -169,7 +162,7 @@ async function main() {
     downloadFile,
     getMetadata,
     listFiles,
-    deleteFile, // Add the new method
+    deleteFile,
   });
   server.bindAsync(
     "0.0.0.0:5001",
