@@ -13,22 +13,22 @@ const minioClients = [
   new Minio.Client({
     endPoint: process.env.MINIO_ENDPOINT_1.split(":")[0],
     port: parseInt(process.env.MINIO_ENDPOINT_1.split(":")[1]),
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_KEY,
+    accessKey: process.env.MINIO_ROOT_USER || process.env.MINIO_ACCESS_KEY,
+    secretKey: process.env.MINIO_ROOT_PASSWORD || process.env.MINIO_SECRET_KEY,
     useSSL: false,
   }),
   new Minio.Client({
     endPoint: process.env.MINIO_ENDPOINT_2.split(":")[0],
     port: parseInt(process.env.MINIO_ENDPOINT_2.split(":")[1]),
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_KEY,
+    accessKey: process.env.MINIO_ROOT_USER || process.env.MINIO_ACCESS_KEY,
+    secretKey: process.env.MINIO_ROOT_PASSWORD || process.env.MINIO_SECRET_KEY,
     useSSL: false,
   }),
   new Minio.Client({
     endPoint: process.env.MINIO_ENDPOINT_3.split(":")[0],
     port: parseInt(process.env.MINIO_ENDPOINT_3.split(":")[1]),
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_KEY,
+    accessKey: process.env.MINIO_ROOT_USER || process.env.MINIO_ACCESS_KEY,
+    secretKey: process.env.MINIO_ROOT_PASSWORD || process.env.MINIO_SECRET_KEY,
     useSSL: false,
   }),
 ];

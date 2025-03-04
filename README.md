@@ -22,13 +22,50 @@ This system consists of the following components:
 
 ## Setup Instructions
 
-### Prerequisites
+### Option 1: Using Docker (Recommended)
+
+The easiest way to run the entire system is using Docker and Docker Compose:
+
+1. Clone the repository:
+
+   ```
+   git clone <repository-url>
+   cd Distributed-File-Storage-System
+   ```
+
+2. Start the system using Docker Compose:
+
+   ```
+   docker-compose up -d
+   ```
+
+3. Access the web interface at http://localhost:3000
+
+4. To view MinIO consoles:
+
+   - Node 1: http://localhost:9091
+   - Node 2: http://localhost:9092
+   - Node 3: http://localhost:9093
+
+   Login with:
+
+   - Username: minioadmin
+   - Password: minioadmin
+
+5. To stop the system:
+   ```
+   docker-compose down
+   ```
+
+### Option 2: Manual Setup
+
+#### Prerequisites
 
 - Node.js (v14 or later)
 - Docker and Docker Compose (for MinIO)
 - MinIO running on multiple ports (for simulating a distributed environment)
 
-### Environment Setup
+#### Environment Setup
 
 1. Clone the repository:
 
@@ -49,8 +86,8 @@ This system consists of the following components:
    MINIO_ENDPOINT_1=localhost:9000
    MINIO_ENDPOINT_2=localhost:9001
    MINIO_ENDPOINT_3=localhost:9002
-   MINIO_ACCESS_KEY=minioadmin
-   MINIO_SECRET_KEY=minioadmin
+   MINIO_ROOT_USER=minioadmin
+   MINIO_ROOT_PASSWORD=minioadmin
    ```
 
 4. Setup MinIO using Docker Compose:
