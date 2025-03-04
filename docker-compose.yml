@@ -7,9 +7,7 @@ services:
       - "3000:3000" # API Server
       - "5001:5001" # gRPC Server
     environment:
-      - MINIO_ENDPOINT_1=minio1:9000
-      - MINIO_ENDPOINT_2=minio2:9000
-      - MINIO_ENDPOINT_3=minio3:9000
+      - MINIO_ENDPOINT=minio1:9000
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
     volumes:
@@ -29,7 +27,7 @@ services:
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
-    command: server --console-address ":9090" /data
+    command: server --console-address ":9090" http://minio{1...3}/data
 
   minio2:
     image: minio/minio
@@ -41,7 +39,7 @@ services:
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
-    command: server --console-address ":9090" /data
+    command: server --console-address ":9090" http://minio{1...3}/data
 
   minio3:
     image: minio/minio
@@ -53,7 +51,7 @@ services:
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
-    command: server --console-address ":9090" /data
+    command: server --console-address ":9090" http://minio{1...3}/data
 
 volumes:
   minio_data1:
